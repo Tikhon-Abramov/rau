@@ -1,0 +1,16 @@
+export const theme = {
+    bg: "#061522",
+    panel: "#121822",
+    panelAlt: "#232e42",
+    element: "#18202e",
+    line: "#2A2D32",
+    text: "#E5E7EB",
+    textDim: "#9CA3AF",
+    primary: "#6366F1",
+    primaryHover: "#818CF8",
+    success: "#10B981",
+    danger: "#EF4444",
+    warn: "#FBBF24",
+    shadow: "rgb(0,0,0)",
+    radius: "8px",
+};
