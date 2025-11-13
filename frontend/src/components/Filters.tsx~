@@ -147,6 +147,7 @@ export default function Filters(props: PropsType) {
             case "unread":
                 return data.filter(
                     (item) =>
+                        item.is_new === 0 &&
                         item.is_verified === 0 &&
                         item.is_deleted === 0 &&
                         item.is_changed === 0

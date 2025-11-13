@@ -60,7 +60,7 @@ export default function MainRauPage() {
     const [rauData, setRauData] = useState<RauDataType[]>(
         [
             {
-                inn_au: `7701947583`, //ИНН АУ
+                inn_au: `764701947583`, //ИНН АУ
                 last_name_au: "Иванов", //Фамилия АУ
                 first_name_au: "Иван", //Имя АУ
                 middle_name_au: "Иванович", //Отчество АУ
@@ -99,7 +99,7 @@ export default function MainRauPage() {
                 is_new:0
             },
             {
-                inn_au: `7701947583`, //ИНН АУ
+                inn_au: `752701947583`, //ИНН АУ
                 last_name_au: "Иванов", //Фамилия АУ
                 first_name_au: "Иван", //Имя АУ
                 middle_name_au: "Иванович", //Отчество АУ
@@ -138,7 +138,7 @@ export default function MainRauPage() {
                 is_new:1
             },
             {
-                inn_au: `7701947583`, //ИНН АУ
+                inn_au: `7701912347583`, //ИНН АУ
                 last_name_au: "Иванов", //Фамилия АУ
                 first_name_au: "Иван", //Имя АУ
                 middle_name_au: "Иванович", //Отчество АУ
@@ -177,7 +177,7 @@ export default function MainRauPage() {
                 is_new:0
             },
             {
-                inn_au: `7701947583`, //ИНН АУ
+                inn_au: `770194127583`, //ИНН АУ
                 last_name_au: "Иванов", //Фамилия АУ
                 first_name_au: "Иван", //Имя АУ
                 middle_name_au: "Иванович", //Отчество АУ
@@ -216,13 +216,13 @@ export default function MainRauPage() {
                 is_new:0
             },
             {
-                inn_au: `7701947583`, //ИНН АУ
+                inn_au: `770164947583`, //ИНН АУ
                 last_name_au: "Иванов", //Фамилия АУ
                 first_name_au: "Иван", //Имя АУ
                 middle_name_au: "Иванович", //Отчество АУ
                 inn_sro: `772294857665`, //ИНН СРО
                 sro_name: `СРО «Партнёрство 1»`, //Наименование СРО
-                case_number: `А40-2873646/25`, //Номер дела
+                case_number: `А50-2873646/25`, //Номер дела
                 debtor_name: "ООО «Рассвет»", //Наименование должника
                 debtor_inn: `7801234242342`, //ИНН должника
                 debtor_category: "Юридическое лицо", //Категория должника, в соответствии с ЗОБ

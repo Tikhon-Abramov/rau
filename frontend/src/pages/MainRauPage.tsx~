@@ -60,7 +60,7 @@ export default function MainRauPage() {
     const [rauData, setRauData] = useState<RauDataType[]>(
         [
             {
-                inn_au: `7701947583`, //ИНН АУ
+                inn_au: `764701947583`, //ИНН АУ
                 last_name_au: "Иванов", //Фамилия АУ
                 first_name_au: "Иван", //Имя АУ
                 middle_name_au: "Иванович", //Отчество АУ
@@ -99,7 +99,7 @@ export default function MainRauPage() {
                 is_new:0
             },
             {
-                inn_au: `7701947583`, //ИНН АУ
+                inn_au: `752701947583`, //ИНН АУ
                 last_name_au: "Иванов", //Фамилия АУ
                 first_name_au: "Иван", //Имя АУ
                 middle_name_au: "Иванович", //Отчество АУ
@@ -138,7 +138,7 @@ export default function MainRauPage() {
                 is_new:1
             },
             {
-                inn_au: `7701947583`, //ИНН АУ
+                inn_au: `7701912347583`, //ИНН АУ
                 last_name_au: "Иванов", //Фамилия АУ
                 first_name_au: "Иван", //Имя АУ
                 middle_name_au: "Иванович", //Отчество АУ
@@ -171,13 +171,13 @@ export default function MainRauPage() {
                 asset_sale_proceeds_assignment: '1231231231.00',//Сумма денежных средств, вырученных от реализации имущества, в рублях: путем уступки кредитору права требования о привлечении к субсидиарной ответственности
                 asset_sale_proceeds_collateral_retention: '132213123.00',//Сумма денежных средств, вырученных от реализации имущества, в рублях: путем оставления залоговым кредитором предмета залога за собой
                 final_report_published: 'НЕТ',//Финальный отчет опубликован на ЕФРСБ (ДА/НЕТ)
-                is_verified: 1,
-                is_deleted:1,
+                is_verified: 0,
+                is_deleted:0,
                 is_changed: 0,
                 is_new:0
             },
             {
-                inn_au: `7701947583`, //ИНН АУ
+                inn_au: `770194127583`, //ИНН АУ
                 last_name_au: "Иванов", //Фамилия АУ
                 first_name_au: "Иван", //Имя АУ
                 middle_name_au: "Иванович", //Отчество АУ
@@ -216,7 +216,7 @@ export default function MainRauPage() {
                 is_new:0
             },
             {
-                inn_au: `7701947583`, //ИНН АУ
+                inn_au: `770164947583`, //ИНН АУ
                 last_name_au: "Иванов", //Фамилия АУ
                 first_name_au: "Иван", //Имя АУ
                 middle_name_au: "Иванович", //Отчество АУ
