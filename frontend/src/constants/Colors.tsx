@@ -7,6 +7,7 @@ export const theme = {
     line: "#2A2D32",
     text: "#E5E7EB",
     textDim: "#9CA3AF",
+    newcard: "#283340",
     primary: "#6366F1",
     primaryHover: "#818CF8",
     success: "rgba(16,185,129,0.15)",

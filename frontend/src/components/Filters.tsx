@@ -149,7 +149,8 @@ export default function Filters(props: PropsType) {
                     (item) =>
                         item.is_verified === 0 &&
                         item.is_deleted === 0 &&
-                        item.is_changed === 0
+                        item.is_changed === 0 &&
+                        item.is_new === 0
                 );
             case "all":
             default:

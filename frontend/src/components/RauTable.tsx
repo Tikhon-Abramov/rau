@@ -12,6 +12,31 @@ import React, {useState, useEffect} from "react";
 import type {RauDataType} from "../pages/MainRauPage.tsx";
 
 
+function addAlpha(color: string, amount: number) {
+    if (color.startsWith("rgba")) {
+        const [r, g, b, a] = color
+            .replace(/rgba|\(|\)|\s/g, "")
+            .split(",")
+            .map(Number);
+        return `rgba(${r}, ${g}, ${b}, ${Math.min(a + amount, 1)})`;
+    }
+
+    const c = color.replace("#", "");
+
+    const bigint = parseInt(
+        c.length === 3
+            ? c.split("").map((x) => x + x).join("") // #abc → #aabbcc
+            : c,
+        16
+    );
+
+    const r = (bigint >> 16) & 255;
+    const g = (bigint >> 8) & 255;
+    const b = bigint & 255;
+
+    return `rgba(${r}, ${g}, ${b}, ${amount})`;
+}
+
 
 const Shell = muiStyled(Paper)({
     backgroundColor: theme.panel,
@@ -79,10 +104,20 @@ const Cell = muiStyled(TableCell)({
     hyphens: "none",
 });
 
-const Row = muiStyled(TableRow)({
+const Row = muiStyled(TableRow, {
+    shouldForwardProp: (prop) => prop !== "$bg",
+})<{ $bg?: string }>(({ $bg }) => ({
     transition: "background .18s ease",
-    "&:hover": {backgroundColor: `${theme.primary}22`},
-});
+    backgroundColor: $bg || "transparent",
+
+    "&:hover": {
+        backgroundColor: $bg
+            ? addAlpha($bg, 0.15)     // усиливаем цвет при наведении
+            : `${theme.primary}22`,   // стандартный hover если фона нет
+    },
+}));
+
+
 
 const VerifyButton = styled.button`
     white-space: nowrap;
@@ -528,57 +563,70 @@ export default function RauTable(props: PropsType) {
                         </TableHead>
 
                         <TableBody>
-                            {props.filteredRauData.map((row: RauDataType, i: number) => (
-                                <Row key={i}>
-                                    <Cell>
-                                        <VerifyButton onClick={() => handleVerifyClick(row)}>
-                                            Верифицировать
-                                        </VerifyButton>
+                            {props.filteredRauData.map((row: RauDataType, i: number) => {
+                                const bg =
+                                    row.is_deleted === 1
+                                        ? `${theme.danger}`  // красный полупрозрачный
+                                        : row.is_verified === 1
+                                            ? `${theme.success}`  // зелёный полупрозрачный
+                                            : row.is_changed === 1
+                                                ? `${theme.warn}`     // жёлтый полупрозрачный
+                                                : row.is_new === 1
+                                                    ? `${theme.newcard}` // серый полупрозрачный
+                                                    : undefined;
+
+                                return (
+                                    <Row key={i} $bg={bg}>
+                                        <Cell>
+                                            <VerifyButton onClick={() => handleVerifyClick(row)}>
+                                                Верифицировать
+                                            </VerifyButton>
                                         </Cell>
-                                    <Cell>
-                                        <RemoveButton onClick={() => handleDeleteClick(row)}>
-                                            Удалить
-                                        </RemoveButton>
+                                        <Cell>
+                                            <RemoveButton onClick={() => handleDeleteClick(row)}>
+                                                Удалить
+                                            </RemoveButton>
                                         </Cell>
-                                    <Cell>
-                                        <EditButton>Исправить</EditButton>
+                                        <Cell>
+                                            <EditButton>Исправить</EditButton>
                                         </Cell>
-                                    <Cell>{i + 1}</Cell>
-                                    <Cell>{row.inn_au}</Cell>
-                                    <Cell>{row.last_name_au}</Cell>
-                                    <Cell>{row.first_name_au}</Cell>
-                                    <Cell>{row.middle_name_au}</Cell>
-                                    <Cell>{row.inn_sro}</Cell>
-                                    <Cell>{row.sro_name}</Cell>
-                                    <Cell>{row.case_number}</Cell>
-                                    <Cell>{row.debtor_name}</Cell>
-                                    <Cell>{row.debtor_inn}</Cell>
-                                    <Cell>{row.debtor_category}</Cell>
-                                    <Cell>{row.bankruptcy_procedure}</Cell>
-                                    <Cell>{row.procedure_start_date}</Cell>
-                                    <Cell>{row.procedure_end_date}</Cell>
-                                    <Cell>{row.au_appointment_date}</Cell>
-                                    <Cell>{row.au_release_date}</Cell>
-                                    <Cell>{row.au_count}</Cell>
-                                    <Cell>{row.has_court_alt_fee_distribution}</Cell>
-                                    <Cell>{row.court_set_fee_amount}</Cell>
-                                    <Cell>{row.registry_claims_amount}</Cell>
-                                    <Cell>{row.repaid_claims_total}</Cell>
-                                    <Cell>{row.repaid_by_dation}</Cell>
-                                    <Cell>{row.repaid_by_assignment}</Cell>
-                                    <Cell>{row.repaid_by_collateral_retention}</Cell>
-                                    <Cell>{row.fo_plan_approval_date}</Cell>
-                                    <Cell>{row.rdg_vu_plan_approval_date}</Cell>
-                                    <Cell>{row.fo_rdg_vu_success}</Cell>
-                                    <Cell>{row.fo_rdg_vu_completion_date}</Cell>
-                                    <Cell>{row.initial_asset_prices_total}</Cell>
-                                    <Cell>{row.asset_sale_proceeds_total}</Cell>
-                                    <Cell>{row.asset_sale_proceeds_dation}</Cell>
-                                    <Cell>{row.asset_sale_proceeds_assignment}</Cell>
-                                    <Cell>{row.asset_sale_proceeds_collateral_retention}</Cell>
-                                    <Cell>{row.final_report_published}</Cell>
-                                </Row>
-                            ))}
+                                        <Cell>{i + 1}</Cell>
+                                        <Cell>{row.inn_au}</Cell>
+                                        <Cell>{row.last_name_au}</Cell>
+                                        <Cell>{row.first_name_au}</Cell>
+                                        <Cell>{row.middle_name_au}</Cell>
+                                        <Cell>{row.inn_sro}</Cell>
+                                        <Cell>{row.sro_name}</Cell>
+                                        <Cell>{row.case_number}</Cell>
+                                        <Cell>{row.debtor_name}</Cell>
+                                        <Cell>{row.debtor_inn}</Cell>
+                                        <Cell>{row.debtor_category}</Cell>
+                                        <Cell>{row.bankruptcy_procedure}</Cell>
+                                        <Cell>{row.procedure_start_date}</Cell>
+                                        <Cell>{row.procedure_end_date}</Cell>
+                                        <Cell>{row.au_appointment_date}</Cell>
+                                        <Cell>{row.au_release_date}</Cell>
+                                        <Cell>{row.au_count}</Cell>
+                                        <Cell>{row.has_court_alt_fee_distribution}</Cell>
+                                        <Cell>{row.court_set_fee_amount}</Cell>
+                                        <Cell>{row.registry_claims_amount}</Cell>
+                                        <Cell>{row.repaid_claims_total}</Cell>
+                                        <Cell>{row.repaid_by_dation}</Cell>
+                                        <Cell>{row.repaid_by_assignment}</Cell>
+                                        <Cell>{row.repaid_by_collateral_retention}</Cell>
+                                        <Cell>{row.fo_plan_approval_date}</Cell>
+                                        <Cell>{row.rdg_vu_plan_approval_date}</Cell>
+                                        <Cell>{row.fo_rdg_vu_success}</Cell>
+                                        <Cell>{row.fo_rdg_vu_completion_date}</Cell>
+                                        <Cell>{row.initial_asset_prices_total}</Cell>
+                                        <Cell>{row.asset_sale_proceeds_total}</Cell>
+                                        <Cell>{row.asset_sale_proceeds_dation}</Cell>
+                                        <Cell>{row.asset_sale_proceeds_assignment}</Cell>
+                                        <Cell>{row.asset_sale_proceeds_collateral_retention}</Cell>
+                                        <Cell>{row.final_report_published}</Cell>
+                                    </Row>
+                                );
+                            })}
                         </TableBody>
                     </Table>
                 </Container>
