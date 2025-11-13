@@ -2,6 +2,7 @@ import { useState } from "react";
 import styled from "styled-components";
 import { theme } from "../constants/Colors";
 import {IoIosSearch} from "react-icons/io";
+import type {RauDataType} from "../pages/MainRauPage.tsx";
 
 
 const Bar = styled.div`
@@ -36,9 +37,7 @@ const Chip = styled.button<{ $active?: boolean }>`
   cursor: pointer;
   transition: 0.18s ease;
   &:hover {
-    border-color: ${theme.primary};
-    background: ${({ $active }) => ($active ? `${theme.primary}33` : "#1f2a41")};
-    color: ${theme.primary};
+    border-color: ${theme.textDim};
   }
   &:focus-visible {
     outline: none;
@@ -107,8 +106,6 @@ const SearchInput = styled.input`
   }
 `;
 
-
-
 type FilterKey =
     | "all"
     | "verified"
@@ -126,20 +123,23 @@ const FILTERS: { key: FilterKey; label: string }[] = [
     { key: "new",      label: "Новые записи" },
 ];
 
-export default function Filters({
-                                    onChange,
-                                    onAdd,
-                                    initial = "all",
-                                }: {
-    onChange?: (key: FilterKey) => void;
-    onAdd?: () => void;
-    initial?: FilterKey;
-}) {
-    const [active, setActive] = useState<FilterKey>(initial);
+type PropsType = {
+    rauData: RauDataType[],
+    setRauData: any,
+    setFilteredRauData: any;
+}
+export default function Filters(props:PropsType){
+
+    const [active, setActive] = useState<FilterKey>('all');
 
     const handleSelect = (key: FilterKey) => {
         setActive(key);
-        onChange?.(key);
+        props.setFilteredRauData(key==='new' ? props.rauData.filter(item=> item.is_new === 1) :
+            key === 'verified' ? props.rauData.filter(item=> item.is_verified === 1) :
+                key === 'deleted' ? props.rauData.filter(item=> item.is_deleted === 1) :
+                    key === 'changed' ? props.rauData.filter(item=> item.is_changed === 1) :
+                        key === 'unread' ? props.rauData.filter(item=> (item.is_new === 0) && (item.is_verified === 0) && (item.is_deleted === 0) && (item.is_changed === 0)) :
+                            props.rauData);
     };
 
     return (
@@ -161,7 +161,7 @@ export default function Filters({
                 <SearchIcon/>
                 <SearchInput placeholder="Введите номер дела или ИНН..."/>
             </SearchWrapper>
-            <AddButton onClick={onAdd}>Добавить новую запись</AddButton>
+            <AddButton onClick={() =>console.log('ToDo')}>Добавить новую запись</AddButton>
         </Bar>
     );
 }

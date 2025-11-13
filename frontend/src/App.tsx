@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import {theme} from "./constants/Colors.tsx";
-import MainTable from "./pages/MainTable.tsx";
+import MainRauPage from "./pages/MainRauPage.tsx";
 
 const Global = styled.div`
     display: flex;
@@ -15,7 +15,7 @@ const Global = styled.div`
 function App() {
     return(
     <Global>
-        <MainTable/>
+        <MainRauPage/>
     </Global>
 )
 }
