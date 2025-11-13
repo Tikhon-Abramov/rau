@@ -15,7 +15,7 @@ const InfoBlockContainer = styled.div`
     gap: 10px;
 `;
 
-const InfoBlock = styled.div`
+const InfoContainer = styled.div`
     display: flex;
     flex-direction: column;
     width: 100%;
@@ -28,11 +28,11 @@ const InfoBlock = styled.div`
 `;
 
 
-export default function Search() {
+export default function InfoBlock() {
     return (
         <Container>
             <InfoBlockContainer>
-                <InfoBlock>
+                <InfoContainer>
                     <p>
                         Сводная информация по САМОРЕГУЛИРУЕМАЯ ОРГАНИЗАЦИЯ СОЮЗ АРБИТРАЖНЫХ УПРАВЛЯЮЩИХ ПРАВОСОЗНАНИЕ
                     </p>
@@ -40,7 +40,7 @@ export default function Search() {
                         Ваш менеджер по вопросам: Малыхина Дарья Евгеньевна (тел. 8(495)198-53-15 (доб.4845),
                         8(926)201-53-07)
                     </p>
-                </InfoBlock>
+                </InfoContainer>
             </InfoBlockContainer>
         </Container>
     )

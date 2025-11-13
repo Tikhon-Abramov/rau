@@ -133,7 +133,7 @@ export default function TopBarPanel() {
                     <MenuItem>Данные для РАУ</MenuItem>
                     <MenuItem>Верификация нарушений</MenuItem>
                     <MenuItem>Обратная связь</MenuItem>
-                    <MenuItem>Меню администратора</MenuItem>
+                    <MenuItem>Включить сервисный режим</MenuItem>
                 </Dropdown>
             )}
 

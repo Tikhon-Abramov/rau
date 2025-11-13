@@ -1,4 +1,4 @@
-import Search from "../components/Search";
+import Search from "../components/InfoBlock.tsx";
 import Filters from "../components/Filters";
 import RauTable from "../components/RauTable.tsx";
 import {useState} from "react";
