@@ -388,7 +388,7 @@ export default function RauTable(props: PropsType) {
     const modalErrorText =
         modalMode === "delete"
             ? "Пожалуйста, введите причину удаления."
-            : "Пожалуйста, введите основание верификации.";
+            : "Пожалуйста, введите основание.";
 
     return (
         <>

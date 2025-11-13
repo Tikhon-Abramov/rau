@@ -126,7 +126,7 @@ export default function TopBarPanel() {
             </MenuButton>
 
             <Title>Данные для Регистрации Арбитражных Управляющих</Title>
-            
+
 
             {menuOpen && (
                 <Dropdown>

@@ -1,21 +1,8 @@
-import TopBarPanel from "../components/TopBarPanel";
-import styled from "styled-components";
-import {theme} from "../constants/Colors";
 import Search from "../components/Search";
 import Filters from "../components/Filters";
 import RauTable from "../components/RauTable.tsx";
 import {useState} from "react";
 
-const Panel = styled.div`
-    width: 98%;
-    padding: 10px 0 10px 0;
-    margin-top: 15px;
-    margin-bottom: 15px;
-    background-color: ${theme.panel};
-    color: ${theme.text};
-    border-radius: ${theme.radius};
-    box-shadow: 0 5px 40px ${theme.shadow};
-`;
 export type RauDataType = {
     inn_au: string, //ИНН АУ
     last_name_au: string, //Фамилия АУ
@@ -298,8 +285,7 @@ export default function MainRauPage() {
     );
     const [filteredRauData, setFilteredRauData] = useState<RauDataType[]>(rauData);
     return (
-        <Panel>
-            <TopBarPanel/>
+        <>
             <Search/>
             <Filters
                  rauData={rauData}
@@ -309,6 +295,6 @@ export default function MainRauPage() {
             <RauTable
                 filteredRauData={filteredRauData}
             />
-        </Panel>
+        </>
     );
 }

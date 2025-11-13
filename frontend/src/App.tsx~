@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import {theme} from "./constants/Colors.tsx";
-import MainTable from "./pages/MainTable.tsx";
+import MainRauPage from "./pages/MainRauPage.tsx";
+import TopBarPanel from "./components/TopBarPanel.tsx";
 
 const Global = styled.div`
     display: flex;
@@ -10,12 +11,25 @@ const Global = styled.div`
     background-color: ${theme.bg};
     color: ${theme.text};
 `;
+const Panel = styled.div`
+    width: 98%;
+    padding: 10px 0 10px 0;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    background-color: ${theme.panel};
+    color: ${theme.text};
+    border-radius: ${theme.radius};
+    box-shadow: 0 5px 40px ${theme.shadow};
+`;
 
 
 function App() {
     return(
     <Global>
-        <MainTable/>
+        <Panel>
+            <TopBarPanel/>
+<MainRauPage/>
+        </Panel>
     </Global>
 )
 }

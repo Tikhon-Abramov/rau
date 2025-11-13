@@ -85,7 +85,7 @@ const Circle = styled.div`
     width: 7px;
     height: 7px;
     border-radius: 50%;
-    background: ${theme.success};
+    background: ${theme.successBorder};
 `;
 
 const LogOutButton = styled.p`
