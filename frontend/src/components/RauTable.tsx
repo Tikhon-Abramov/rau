@@ -200,6 +200,7 @@ export default function RauTable(props: PropsType) {
     const [modalMode, setModalMode] = useState<ModalMode>(null);
     const [selectedRow, setSelectedRow] = useState<RauDataType | null>(null);
     const [isModalChanging, setIsModalChanging] = useState(false);
+    const [currentRow, setCurrentRow] = useState<RauDataType | null>(null);
 
     const isModalOpen = modalMode !== null;
 
@@ -212,8 +213,9 @@ export default function RauTable(props: PropsType) {
         setSelectedRow(row);
         setModalMode("delete");
     };
-    const handleChangeClick = () => {
+    const handleChangeClick = (row: RauDataType) => {
         setIsModalChanging(true);
+        setCurrentRow(row)
     };
 
 
@@ -275,7 +277,9 @@ export default function RauTable(props: PropsType) {
             {isModalChanging && (
                 <ModalChanging
                     isOpen={isModalChanging}
-                    onClose={handleCloseModal} />
+                    onClose={handleCloseModal}
+                    row = {currentRow}
+                />
             )
             }
 
@@ -412,7 +416,7 @@ export default function RauTable(props: PropsType) {
                                             : row.is_changed === 1
                                                 ? `${theme.warn}`     // жёлтый полупрозрачный
                                                 : row.is_new === 1
-                                                    ? `${theme.newcard}` // серый полупрозрачный
+                                                    ? `${theme.newcard}` // сиреневый полупрозрачный
                                                     : undefined;
 
                                 return (
@@ -428,7 +432,7 @@ export default function RauTable(props: PropsType) {
                                             </RemoveButton>
                                         </Cell>
                                         <Cell>
-                                            <EditButton onClick={() => handleChangeClick()}>
+                                            <EditButton onClick={() => handleChangeClick(row)}>
                                                 Исправить
                                             </EditButton>
                                         </Cell>

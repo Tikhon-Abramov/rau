@@ -1,0 +1,446 @@
+import { useRef, useEffect, useState } from "react";
+import styled from "styled-components";
+import { RiSendPlane2Fill } from "react-icons/ri";
+import {theme, buttons} from "../../constants/Colors.tsx";
+
+type AppealsType = {
+    id: number;
+    created: string;
+    status: string;
+    user_id: string;
+    closed_by: string;
+    is_read: number;
+};
+
+type PropsType = {
+    appealsChat: number | null;
+    appealsStatusCheck: string;
+    setAppealsStatusCheck: (status: string) => void;
+    setAppeals: React.Dispatch<React.SetStateAction<AppealsType[]>>;
+};
+
+type Message = {
+    id: number;
+    appeal_id: number;
+    sender: "user" | "admin";
+    text: string;
+    created_at: string;
+};
+
+const Wrapper = styled.div`
+    display: flex;
+    width: 80%;
+    position: relative;
+`;
+
+const ChatContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background-color: ${theme.element};
+    border-radius: 0.5rem;
+    border: 1px solid ${theme.panelAlt};
+    overflow: hidden;
+`;
+
+const StatusButtonsWrapper = styled.div`
+    display: flex;
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 2.25rem; /* h-9 */
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem;
+`;
+
+const StatusButton = styled.div<{ $variant: "blue" | "green" | "red" }>`
+    display: flex;
+    padding: 0.25rem 0.5rem;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0.375rem;
+    cursor: pointer;
+    border: 1px solid;
+    font-weight: 500;
+    transition: background-color 0.15s ease;
+
+    ${({ $variant }) =>
+    $variant === "blue" &&
+    `
+        background-color: ${buttons.blue};
+        border-color: ${buttons.blueBorder};
+        color: ${buttons.blueBorder};
+        &:hover {
+            background-color: ${buttons.blueBorder}70;
+        }
+    `}
+
+    ${({ $variant }) =>
+    $variant === "green" &&
+            `
+        background-color: ${buttons.green};
+        border-color: ${buttons.greenBorder};
+        color: ${buttons.greenBorder};
+        &:hover {
+            background-color: ${buttons.greenBorder}70;
+        }
+    `}
+
+    ${({ $variant }) =>
+    $variant === "red" &&
+            `
+        background-color: ${buttons.red};
+        border-color: ${buttons.redBorder};
+        color: ${buttons.redBorder};
+        &:hover {
+            background-color: ${buttons.redBorder}70;
+        }
+    `}
+`;
+
+const MessagesContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 0.5rem;
+    overflow-y: auto;
+    height: calc(100% - 60px);
+    margin-top: 2.5rem;
+
+    /* прячем скроллбар */
+    &::-webkit-scrollbar {
+        width: 0;
+        height: 0;
+    }
+`;
+
+const EmptyText = styled.p`
+    text-align: center;
+    color: #6b7280; /* gray-500 */
+    margin-top: 1.25rem;
+`;
+
+const MessageBubble = styled.div<{ $sender: "user" | "admin" }>`
+    max-width: 70%;
+    padding: 0.5rem 0.75rem;
+    border-radius: 0.75rem;
+    word-break: break-word;
+    white-space: pre-wrap;
+    align-self: ${({ $sender }) =>
+    $sender === "user" ? "flex-start" : "flex-end"};
+    background-color: ${({ $sender }) =>
+    $sender === "user" ? theme.panel : theme.panelAlt /* gray-200 / indigo-200 */};
+    text-align: ${({ $sender }) =>
+    $sender === "user" ? "left" : "right"};
+`;
+
+const MessageTime = styled.span`
+    display: block;
+    margin-top: 0.25rem;
+    font-size: 0.75rem;
+    color: #6b7280; /* gray-500 */
+`;
+
+const InputPanel = styled.div`
+    display: flex;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    justify-content: space-between;
+    background-color: ${theme.panel};
+    border-top: 1px solid ${theme.panelAlt};
+    border-radius: 0 0 0.5rem 0.5rem;
+`;
+
+const Textarea = styled.textarea`
+    width: 100%;
+    min-height: 2rem;
+    padding: 0.25rem 0.5rem;
+    border: none;
+    resize: none;
+    overflow-y: auto;
+    outline: none;
+    font-family: inherit;
+    font-size: 0.875rem;
+    background-color: ${theme.panel};
+
+    &::-webkit-scrollbar {
+        width: 0;
+        height: 0;
+    }
+`;
+
+const SendButton = styled.button`
+    display: flex;
+    flex-direction: column;
+    padding: 0.25rem 0.75rem;
+    justify-content: center;
+    align-items: center;
+    border: none;
+    background: transparent;
+    color: ${theme.primary};
+    cursor: pointer;
+`;
+
+const BottomBannerWrapper = styled.div`
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding-bottom: 0.5rem;
+`;
+
+const BottomBanner = styled.p<{ $variant: "green" | "red" }>`
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.375rem;
+    border-width: 1px;
+    ${({ $variant }) =>
+    $variant === "red" &&
+    `
+        background-color: ${buttons.red};
+        border-color: ${buttons.redBorder};
+        color: ${buttons.redBorder};
+    `}
+    ${({ $variant }) =>
+    $variant === "green" &&
+    `
+        background-color: ${buttons.green};
+        border-color: ${buttons.greenBorder};
+        color: ${buttons.greenBorder};
+    `}
+`;
+
+const ChooseAppeal = styled.div`
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 1rem;
+    color: #dc2626; /* red-600 */
+`;
+
+export default function ChatPanel(props: PropsType) {
+    const textareaRef = useRef<HTMLTextAreaElement>(null);
+    const [value, setValue] = useState("");
+    const [messagesByChat, setMessagesByChat] = useState<
+        Record<number, Message[]>
+    >({});
+
+    useEffect(() => {
+        if (props.appealsChat === null) return;
+        setValue("");
+        setMessagesByChat((prev) => {
+            if (prev[props.appealsChat!]) return prev;
+
+            const predefinedChats: Record<number, Message[]> = {
+                49: [
+                    {
+                        id: 1,
+                        appeal_id: 49,
+                        sender: "user",
+                        text: "Здравствуйте, у меня вопрос по Рейтингу МО",
+                        created_at: new Date(
+                            Date.now() - 1000 * 60 * 7
+                        ).toISOString(),
+                    },
+                    {
+                        id: 4,
+                        appeal_id: 50,
+                        sender: "admin",
+                        text: "Попробуйте, пожалуйста, обновить страницу и повторить процедуру.",
+                        created_at: new Date(
+                            Date.now() - 1000 * 60 * 8
+                        ).toISOString(),
+                    },
+                ],
+                50: [
+                    {
+                        id: 3,
+                        appeal_id: 50,
+                        sender: "user",
+                        text:
+                            "Интерфейс (алгоритм работы) ИР «Комиссии» не предусматривает отражение уклонения должника от общения с налоговыми органами (при том, что все предусмотренные налоговым законодательством меры по уведомлению налогоплательщика о вызове на комиссию приняты).\n" +
+                            "Например, ИП Сейранян С.Ж. «фиктивный» мигрант, уклоняется от общения с налоговыми органами (установить связь по указанным им сведениям в ИР налоговых органов не представляется возможным).\n" +
+                            "Так же, ООО «ЕВРОФАРМА ЮО» по адресу регистрации не находится, имеются пояснения собственника о расторжении договоров аренды по адресу регистрации, в АИС «Налог-3» имеется Приказ №48/Л от 16.11.2023 о прекращении полномочий директора, учредителями являются иностранные юридические лица (Республики Южная Осетия).\n" +
+                            "С учетом изложенного, предлагаем в разделе «Проведение комиссии» предусмотреть статус – «Невозможность проведение комиссии ввиду противоправного уклонения должника».😥",
+                        created_at: new Date(
+                            Date.now() - 1000 * 60 * 10
+                        ).toISOString(),
+                    },
+                ],
+            };
+
+            const newMessages = predefinedChats[props.appealsChat!] || [];
+            return { ...prev, [props.appealsChat!]: newMessages };
+        });
+    }, [props.appealsChat]);
+
+    // авто-изменение высоты textarea
+    useEffect(() => {
+        const textarea = textareaRef.current;
+        if (textarea) {
+            textarea.style.height = "20px";
+            textarea.style.height = `${Math.min(
+                textarea.scrollHeight,
+                150
+            )}px`;
+        }
+    }, [value]);
+
+    const changeAppealStatus = (newStatus: string) => {
+        if (props.appealsChat === null) return;
+
+        props.setAppeals((prev) =>
+            prev.map((appeal) =>
+                appeal.id === props.appealsChat
+                    ? { ...appeal, status: newStatus }
+                    : appeal
+            )
+        );
+
+        props.setAppealsStatusCheck(newStatus);
+    };
+
+    const sendMessage = () => {
+        if (!value.trim() || props.appealsChat === null) return;
+
+        const newMessage: Message = {
+            id: Date.now(),
+            appeal_id: props.appealsChat!,
+            sender: "admin",
+            text: value.trim(),
+            created_at: new Date().toISOString(),
+        };
+
+        setMessagesByChat((prev) => ({
+            ...prev,
+            [props.appealsChat!]: [
+                ...(prev[props.appealsChat!] || []),
+                newMessage,
+            ],
+        }));
+
+        setValue("");
+    };
+
+    const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+        if (e.key === "Enter") {
+            e.preventDefault();
+            sendMessage();
+        }
+    };
+
+    const messages = props.appealsChat
+        ? messagesByChat[props.appealsChat] || []
+        : [];
+
+    return (
+        <Wrapper>
+            {props.appealsChat !== null ? (
+                <ChatContainer>
+                    {(props.appealsStatusCheck === "new" ||
+                        props.appealsStatusCheck === "wip") && (
+                        <StatusButtonsWrapper>
+                            {props.appealsStatusCheck === "new" && (
+                                <StatusButton
+                                    $variant="blue"
+                                    onClick={() =>
+                                        changeAppealStatus("wip")
+                                    }
+                                >
+                                    В работу
+                                </StatusButton>
+                            )}
+
+                            <StatusButton
+                                $variant="green"
+                                onClick={() =>
+                                    changeAppealStatus("solved")
+                                }
+                            >
+                                Решено
+                            </StatusButton>
+
+                            <StatusButton
+                                $variant="red"
+                                onClick={() =>
+                                    changeAppealStatus("closed")
+                                }
+                            >
+                                Закрыть
+                            </StatusButton>
+                        </StatusButtonsWrapper>
+                    )}
+
+                    <MessagesContainer>
+                        {messages.length === 0 ? (
+                            <EmptyText>
+                                В этом обращении пока нет сообщений
+                            </EmptyText>
+                        ) : (
+                            messages.map((msg) => (
+                                <MessageBubble
+                                    key={msg.id}
+                                    $sender={msg.sender}
+                                >
+                                    {msg.text}
+                                    <MessageTime>
+                                        {new Date(
+                                            msg.created_at
+                                        ).toLocaleTimeString([], {
+                                            hour: "2-digit",
+                                            minute: "2-digit",
+                                        })}
+                                    </MessageTime>
+                                </MessageBubble>
+                            ))
+                        )}
+                    </MessagesContainer>
+
+                    {(props.appealsStatusCheck === "new" ||
+                        props.appealsStatusCheck === "wip") && (
+                        <InputPanel>
+                            <Textarea
+                                ref={textareaRef}
+                                value={value}
+                                onChange={(e) =>
+                                    setValue(e.target.value)
+                                }
+                                onKeyDown={handleKeyDown}
+                                placeholder="Сообщение..."
+                            />
+                            <SendButton onClick={sendMessage}>
+                                <RiSendPlane2Fill />
+                            </SendButton>
+                        </InputPanel>
+                    )}
+
+                    {props.appealsStatusCheck === "closed" && (
+                        <BottomBannerWrapper>
+                            <BottomBanner $variant="red">
+                                Обращение закрыто. Вы больше не можете
+                                отправлять в нём сообщения
+                            </BottomBanner>
+                        </BottomBannerWrapper>
+                    )}
+
+                    {props.appealsStatusCheck === "solved" && (
+                        <BottomBannerWrapper>
+                            <BottomBanner $variant="green">
+                                Обращение решено. Вы больше не можете
+                                отправлять в нём сообщения
+                            </BottomBanner>
+                        </BottomBannerWrapper>
+                    )}
+                </ChatContainer>
+            ) : (
+                <ChooseAppeal>Выберите обращение</ChooseAppeal>
+            )}
+        </Wrapper>
+    );
+}

@@ -1,0 +1,68 @@
+import styled from "styled-components";
+import {theme, buttons} from "../../constants/Colors.tsx";
+
+type PropsType = {
+    stats: {
+        all: number,
+        new: number,
+        wip: number,
+        solved: number,
+        closed: number,
+    },
+    onFilterChange: (filter: string) => void,
+};
+
+const Wrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+const ButtonsRow = styled.div`
+  display: flex;
+  flex-direction: row;
+  margin-top: 20px;
+  gap: 12px;
+`;
+
+const Button = styled.div<{ bg: string; border: string }>`
+  padding-inline: 5px;
+  border-radius: ${theme.radius};
+  border: 1px solid ${({ border }) => border};
+  background-color: ${({ bg }) => bg};
+  cursor: pointer;
+`;
+
+const Label = styled.p<{ color: string }>`
+  font-size: 16px;
+  color: ${({ color }) => color};
+`;
+
+export default function TopBarPanel({ stats, onFilterChange }: PropsType) {
+    return (
+        <Wrapper>
+            <ButtonsRow>
+
+                <Button bg={buttons.gray} border={buttons.grayBorder} onClick={() => onFilterChange("all")}>
+                    <Label color={buttons.grayBorder}>Все: {stats.all}</Label>
+                </Button>
+
+                <Button bg={buttons.yellow} border={buttons.yellowBorder} onClick={() => onFilterChange("new")}>
+                    <Label color={buttons.yellowBorder}>Новые: {stats.new}</Label>
+                </Button>
+
+                <Button bg={buttons.blue} border={buttons.blueBorder} onClick={() => onFilterChange("wip")}>
+                    <Label color={buttons.blueBorder}>В работе: {stats.wip}</Label>
+                </Button>
+
+                <Button bg={buttons.green} border={buttons.greenBorder} onClick={() => onFilterChange("solved")}>
+                    <Label color={buttons.greenBorder}>Решенные: {stats.solved}</Label>
+                </Button>
+
+                <Button bg={buttons.red} border={buttons.redBorder} onClick={() => onFilterChange("closed")}>
+                    <Label color={buttons.redBorder}>Закрытые: {stats.closed}</Label>
+                </Button>
+
+            </ButtonsRow>
+        </Wrapper>
+    );
+}

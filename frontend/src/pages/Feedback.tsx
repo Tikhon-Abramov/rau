@@ -1,0 +1,70 @@
+import { useState } from "react";
+import styled from "styled-components";
+import TopBarPanel from "../components/feedback/TopBarPanel.tsx";
+import AppealsList from "../components/feedback/AppealsList.tsx";
+import { appeals as appealsData } from "../constants/AppealsListData.tsx";
+import ChatPanel from "../components/feedback/ChatPanel.tsx";
+import {theme} from "../constants/Colors.tsx";
+
+const Wrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin: 10px; 
+  padding: 5px;
+  background-color: ${theme.bg}; 
+  border-radius: ${theme.radius};
+`;
+
+const ContentRow = styled.div`
+  display: flex;
+  margin-top: 15px;
+`;
+
+const AppealsListWrapper = styled.div`
+  display: flex;
+  width: 20%;
+`;
+
+export default function Feedback() {
+    const [filter, setFilter] = useState<string>("all");
+    const [appealsChat, setAppealsChat] = useState<number | null>(null);
+    const [appealsStatusCheck, setAppealsStatusCheck] = useState<string>("");
+    const [appeals, setAppeals] = useState(appealsData);
+
+    const filteredAppeals = appeals.filter((a) => {
+        if (filter === "all") return true;
+        return a.status === filter;
+    });
+
+    // статистика
+    const stats = {
+        all: appeals.length,
+        new: appeals.filter((a) => a.status === "new").length,
+        wip: appeals.filter((a) => a.status === "wip").length,
+        solved: appeals.filter((a) => a.status === "solved").length,
+        closed: appeals.filter((a) => a.status === "closed").length,
+    };
+
+    return (
+        <Wrapper>
+            <TopBarPanel stats={stats} onFilterChange={setFilter} />
+            <ContentRow>
+                <AppealsListWrapper>
+                    <AppealsList
+                        appeals={filteredAppeals}
+                        setAppeals={setAppeals}
+                        setAppealsChat={setAppealsChat}
+                        appealsChat={appealsChat}
+                        setAppealsStatusCheck={setAppealsStatusCheck}
+                    />
+                </AppealsListWrapper>
+                <ChatPanel
+                    appealsChat={appealsChat}
+                    appealsStatusCheck={appealsStatusCheck}
+                    setAppealsStatusCheck={setAppealsStatusCheck}
+                    setAppeals={setAppeals}
+                />
+            </ContentRow>
+        </Wrapper>
+    );
+}

@@ -1,0 +1,172 @@
+import React from "react";
+import styled, { css } from "styled-components";
+import {buttons, theme} from "../../constants/Colors.tsx";
+
+type AppealsType = {
+    id: number;
+    created: string;
+    status: string;
+    user_id: string;
+    closed_by: string;
+    is_read: number;
+};
+
+type PropsType = {
+    appeals: AppealsType[];
+    setAppeals: React.Dispatch<React.SetStateAction<AppealsType[]>>;
+    setAppealsChat: (appeal_id: number) => void;
+    appealsChat: number | null;
+    setAppealsStatusCheck: (status: string) => void;
+};
+
+const Wrapper = styled.div`
+    display: flex;
+    flex-direction: column;
+`;
+
+const Title = styled.h1`
+    font-size: 1.5rem; /* примерно text-2xl */
+    margin: 1.25rem; /* m-5 */
+`;
+
+const ListWrapper = styled.div`
+    max-height: 31.25rem; /* примерно max-h-125 */
+    min-height: 25rem; /* примерно min-h-100 */
+    overflow-y: auto;
+    scrollbar-color: ${theme.primary} transparent;
+`;
+
+interface AppealItemProps {
+    $active: boolean;
+}
+
+const AppealItem = styled.div<AppealItemProps>`
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    gap: 0.75rem;
+    padding: 0.25rem;
+    margin-bottom: 0.5rem;
+    border-radius: ${theme.radius};
+    border: 1px solid ${theme.panel};
+    cursor: pointer;
+    background-color: ${({$active}) => ($active ? theme.panelAlt : theme.element)};
+`;
+
+const UnreadDot = styled.div`
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    height: 7px;
+    width: 7px;
+    border-radius: 100%; 
+    background-color: #ef4444;
+`;
+
+const AppealInfo = styled.div`
+    display: flex;
+    flex-direction: column;
+`;
+
+const AppealTitle = styled.p`
+    color: ${theme.text};
+`;
+
+const AppealDate = styled.p`
+    font-size: 12px;
+    color: ${theme.textDim};
+`;
+
+
+const statusStyles: Record<string, ReturnType<typeof css>> = {
+    new: css`
+        background-color: ${buttons.yellow};
+        border-color: ${buttons.yellowBorder}; 
+        color: ${buttons.yellowBorder};
+    `,
+    closed: css`
+        background-color: ${buttons.red}; 
+        border-color: ${buttons.redBorder};
+        color: ${buttons.redBorder};
+    `,
+    solved: css`
+        background-color: ${buttons.green};
+        border-color: ${buttons.greenBorder};
+        color: ${buttons.greenBorder};
+    `,
+    wip: css`
+        background-color: ${buttons.blue};
+        border-color: ${buttons.blueBorder};
+        color: ${buttons.blueBorder};
+    `,
+};
+
+interface StatusBadgeProps {
+    $status: string;
+}
+
+const StatusBadge = styled.p<StatusBadgeProps>`
+    display: flex;
+    width: 30%;
+    height: 40px;
+    justify-content: center;
+    align-items: center;
+    border-radius: ${theme.radius};
+    border: 1px solid;
+
+    ${({ $status }) => statusStyles[$status] || ""}
+`;
+
+export default function AppealsList(props: PropsType) {
+    const appealsCheck = (id: number, status: string) => {
+        props.setAppealsChat(id);
+        props.setAppealsStatusCheck(status);
+        props.setAppeals((prev) =>
+            prev.map((appeal) =>
+                appeal.id === id ? { ...appeal, is_read: 1 } : appeal
+            )
+        );
+    };
+
+    return (
+        <Wrapper>
+            <Title>Список обращений</Title>
+            <ListWrapper>
+                {props.appeals
+                    .slice()
+                    .reverse()
+                    .map((appeal) => {
+                        const statusText =
+                            appeal.status === "new"
+                                ? "Новое"
+                                : appeal.status === "closed"
+                                    ? "Закрыто"
+                                    : appeal.status === "solved"
+                                        ? "Решено"
+                                        : "В работе";
+
+                        return (
+                            <AppealItem
+                                key={appeal.id}
+                                $active={props.appealsChat === appeal.id}
+                                onClick={() => appealsCheck(appeal.id, appeal.status)}
+                            >
+                                {appeal.is_read === 0 && <UnreadDot />}
+
+                                <AppealInfo>
+                                    <AppealTitle>
+                                        Обращение № {appeal.id}
+                                    </AppealTitle>
+                                    <AppealDate>{appeal.created}</AppealDate>
+                                </AppealInfo>
+
+                                <StatusBadge $status={appeal.status}>
+                                    {statusText}
+                                </StatusBadge>
+                            </AppealItem>
+                        );
+                    })}
+            </ListWrapper>
+        </Wrapper>
+    );
+}

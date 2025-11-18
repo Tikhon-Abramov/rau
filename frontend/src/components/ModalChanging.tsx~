@@ -105,7 +105,7 @@ const fieldLabels: Record<keyof RauDataType, string> = {
 
 export default function ModalChanging({isOpen, onClose, row}: ReasonModalProps) {
     const [reason, setReason] = useState("");
-
+    
     const handleBackdropClick = (e: React.MouseEvent<HTMLDivElement>) => {
         if (e.target === e.currentTarget) {
             onClose();

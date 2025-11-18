@@ -2,6 +2,7 @@ import styled from "styled-components";
 import {theme} from "./constants/Colors.tsx";
 import MainRauPage from "./pages/MainRauPage.tsx";
 import TopBarPanel from "./components/TopBarPanel.tsx";
+import Feedback from "./pages/Feedback.tsx";
 
 const Global = styled.div`
     display: flex;
@@ -29,6 +30,7 @@ function App() {
             <Panel>
                 <TopBarPanel/>
                 <MainRauPage/>
+                {/*<Feedback/>*/}
             </Panel>
         </Global>
     )
