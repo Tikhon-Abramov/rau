@@ -3,6 +3,7 @@ import {theme} from "./constants/Colors.tsx";
 import MainRauPage from "./pages/MainRauPage.tsx";
 import TopBarPanel from "./components/TopBarPanel.tsx";
 import Feedback from "./pages/Feedback.tsx";
+import AuthorusationPage from "./pages/AuthorisationPage.tsx";
 
 const Global = styled.div`
     display: flex;
@@ -27,6 +28,7 @@ const Panel = styled.div`
 function App() {
     return (
         <Global>
+            {/*<AuthorusationPage/>*/}
             <Panel>
                 <TopBarPanel/>
                 <MainRauPage/>

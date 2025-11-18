@@ -1,9 +1,9 @@
-import Search from "../components/InfoBlock.tsx";
+import InfoBlock from "../components/InfoBlock.tsx";
 import Filters from "../components/Filters";
 import RauTable from "../components/RauTable.tsx";
-import {useState} from "react";
+import {useMemo, useState} from "react";
 
-export type RauDataType = {
+export type RauDataType =   {
     inn_au: string, //ИНН АУ
     last_name_au: string, //Фамилия АУ
     first_name_au: string, //Имя АУ
@@ -595,10 +595,15 @@ export default function MainRauPage() {
 
         ]
     );
+
     const [filteredRauData, setFilteredRauData] = useState<RauDataType[]>(rauData);
+    const innAuList = useMemo(
+        () => Array.from(new Set(filteredRauData.map(item => item.inn_au))),
+        [filteredRauData]
+    );
     return (
         <>
-            <Search/>
+            <InfoBlock innAuList={innAuList} />
             <Filters
                  rauData={rauData}
                  setRauData={setRauData}

@@ -298,12 +298,12 @@ export default function RauTable(props: PropsType) {
                     >
                         <TableHead>
                             <TableRow>
+                                <HeadCell align="center" sx={{minWidth: 20, width: 20}}>№</HeadCell>
                                 <HeadCell align="center" sx={{minWidth: 100, width: 120}}>
                                     Верифицировать запись
                                 </HeadCell>
                                 <HeadCell align="center">Удалить запись</HeadCell>
                                 <HeadCell align="center">Исправить ошибки</HeadCell>
-                                <HeadCell align="center">Порядковый номер</HeadCell>
                                 <HeadCell align="center">ИНН АУ</HeadCell>
                                 <HeadCell align="center">Фамилия АУ</HeadCell>
                                 <HeadCell align="center">Имя АУ</HeadCell>
@@ -421,6 +421,7 @@ export default function RauTable(props: PropsType) {
 
                                 return (
                                     <Row key={i} $bg={bg}>
+                                        <Cell>{i + 1}</Cell>
                                         <Cell>
                                             <VerifyButton onClick={() => handleVerifyClick(row)}>
                                                 Верифицировать
@@ -436,7 +437,7 @@ export default function RauTable(props: PropsType) {
                                                 Исправить
                                             </EditButton>
                                         </Cell>
-                                        <Cell>{i + 1}</Cell>
+
                                         <Cell>{row.inn_au}</Cell>
                                         <Cell>{row.last_name_au}</Cell>
                                         <Cell>{row.first_name_au}</Cell>

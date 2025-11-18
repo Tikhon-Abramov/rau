@@ -1,10 +1,12 @@
 import styled from "styled-components";
 import {theme} from "../constants/Colors.tsx";
+import DropDownInn from "./DropDownInn.tsx";
 
 
 const Container = styled.div`
     display: flex;
     align-items: center;
+    justify-content: space-between;
     padding: 12px 18px;
     border-bottom: 1px solid ${theme.line};
 `;
@@ -27,8 +29,12 @@ const InfoContainer = styled.div`
     background: ${theme.element};
 `;
 
+type PropsType={
+    innAuList:string[]
+}
 
-export default function InfoBlock() {
+
+export default function InfoBlock(props:PropsType) {
     return (
         <Container>
             <InfoBlockContainer>
@@ -42,6 +48,9 @@ export default function InfoBlock() {
                     </p>
                 </InfoContainer>
             </InfoBlockContainer>
+            <DropDownInn
+                innAuList={props.innAuList}
+            />
         </Container>
     )
 }

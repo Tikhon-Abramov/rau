@@ -120,7 +120,7 @@ const MessagesContainer = styled.div`
 
 const EmptyText = styled.p`
     text-align: center;
-    color: #6b7280; /* gray-500 */
+    color: #6b7280;
     margin-top: 1.25rem;
 `;
 
@@ -142,7 +142,7 @@ const MessageTime = styled.span`
     display: block;
     margin-top: 0.25rem;
     font-size: 0.75rem;
-    color: #6b7280; /* gray-500 */
+    color: #6b7280;
 `;
 
 const InputPanel = styled.div`
