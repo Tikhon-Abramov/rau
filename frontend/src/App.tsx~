@@ -28,12 +28,12 @@ const Panel = styled.div`
 function App() {
     return (
         <Global>
-            {/*<AuthorusationPage/>*/}
-            <Panel>
-                <TopBarPanel/>
-                <MainRauPage/>
-                <Feedback/>
-            </Panel>
+            <AuthorusationPage/>
+            {/*<Panel>*/}
+            {/*    <TopBarPanel/>*/}
+            {/*    <MainRauPage/>*/}
+            {/*    <Feedback/>*/}
+            {/*</Panel>*/}
         </Global>
     )
 }

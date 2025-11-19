@@ -1,0 +1,49 @@
+import { Routes, Route, Navigate, Outlet } from "react-router-dom";
+import styled from "styled-components";
+import { theme } from "../constants/Colors.tsx";
+
+import MainRauPage from "../pages/MainRauPage.tsx";
+import Feedback from "../pages/Feedback.tsx";
+import AuthorusationPage from "../pages/AuthorisationPage.tsx";
+import TopBarPanel from "../components/TopBarPanel.tsx";
+
+const Panel = styled.div`
+    width: 98%;
+    padding: 10px 0 10px 0;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    background-color: ${theme.panel};
+    color: ${theme.text};
+    border-radius: ${theme.radius};
+    box-shadow: 0 5px 40px ${theme.shadow};
+`;
+
+// Layout: Panel + TopBar + место для страницы (Outlet)
+function MainLayout() {
+    return (
+        <Panel>
+            <TopBarPanel />
+            <Outlet />   {/* сюда будут подставляться MainRauPage, Feedback, и т.д. */}
+        </Panel>
+    );
+}
+
+export default function AppRoutes() {
+    return (
+        <Routes>
+            {/* Страницы без панели / топбара */}
+            <Route path="/login" element={<AuthorusationPage />} />
+            <Route path="/admin" element={<AuthorusationPage />} />
+
+            {/* Все остальные - внутри layout */}
+            <Route element={<MainLayout />}>
+                <Route path="/" element={<MainRauPage />} />
+                <Route path="/feedback" element={<Feedback />} />
+                {/* <Route path="/verification" element={<VerificationPage />} /> */}
+            </Route>
+
+            {/* Всё неизвестное — на логин или на главную, как тебе удобнее */}
+            <Route path="*" element={<Navigate to="/login" replace />} />
+        </Routes>
+    );
+}

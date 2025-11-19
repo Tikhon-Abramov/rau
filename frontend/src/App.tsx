@@ -1,9 +1,7 @@
+// App.tsx
 import styled from "styled-components";
-import {theme} from "./constants/Colors.tsx";
-import MainRauPage from "./pages/MainRauPage.tsx";
-import TopBarPanel from "./components/TopBarPanel.tsx";
-import Feedback from "./pages/Feedback.tsx";
-import AuthorusationPage from "./pages/AuthorisationPage.tsx";
+import { theme } from "./constants/Colors.tsx";
+import AppRoutes from "./routes/AppRoutes"; // <-- подключаем
 
 const Global = styled.div`
     display: flex;
@@ -13,29 +11,13 @@ const Global = styled.div`
     background-color: ${theme.bg};
     color: ${theme.text};
 `;
-const Panel = styled.div`
-    width: 98%;
-    padding: 10px 0 10px 0;
-    margin-top: 15px;
-    margin-bottom: 15px;
-    background-color: ${theme.panel};
-    color: ${theme.text};
-    border-radius: ${theme.radius};
-    box-shadow: 0 5px 40px ${theme.shadow};
-`;
-
 
 function App() {
     return (
         <Global>
-            {/*<AuthorusationPage/>*/}
-            <Panel>
-                {/*<TopBarPanel/>*/}
-                {/*<MainRauPage/>*/}
-                <Feedback/>
-            </Panel>
+            <AppRoutes />
         </Global>
-    )
+    );
 }
 
 export default App;

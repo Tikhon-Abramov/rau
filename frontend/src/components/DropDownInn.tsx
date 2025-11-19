@@ -63,7 +63,6 @@ export default function DropDownInn(props:PropsType) {
     function dropOpenHandle(element: string) {
         setCurDate(element)
         setDropOpen(false)
-        console.log(dropOpen)
     }
 
     return (

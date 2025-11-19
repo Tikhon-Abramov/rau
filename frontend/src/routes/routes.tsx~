@@ -1,0 +1,21 @@
+import {Route, Routes} from "react-router";
+import MainRauPage from "../pages/MainRauPage.tsx";
+import Feedback from "../pages/Feedback.tsx";
+import AuthorusationPage from "../pages/AuthorisationPage.tsx";
+
+export default function AppRoutes() {
+    const navigationRoutes = [
+        {path: "/", element: <MainRauPage/>},
+        {path: "/feedback", element: <Feedback/>},
+        {path: "/login", element: <AuthorusationPage/>},
+        {path: "/admin", element: <AuthorusationPage/>},
+        {path: "*", element: <AuthorusationPage/>},
+    ]
+    return (
+        <Routes>
+            {navigationRoutes.map(({path, element}) => (
+                <Route key={path} path={path} element={element}/>
+            ))}
+        </Routes>
+    );
+}

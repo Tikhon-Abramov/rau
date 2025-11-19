@@ -283,7 +283,6 @@ export default function RauTable(props: PropsType) {
             )
             }
 
-            {/* Таблица */}
             <Shell>
                 <Container>
                     <Table
@@ -410,13 +409,13 @@ export default function RauTable(props: PropsType) {
                             {props.filteredRauData.map((row: RauDataType, i: number) => {
                                 const bg =
                                     row.is_deleted === 1
-                                        ? `${theme.danger}`  // красный полупрозрачный
+                                        ? `${theme.danger}`
                                         : row.is_verified === 1
-                                            ? `${theme.success}`  // зелёный полупрозрачный
+                                            ? `${theme.success}`
                                             : row.is_changed === 1
-                                                ? `${theme.warn}`     // жёлтый полупрозрачный
+                                                ? `${theme.warn}`
                                                 : row.is_new === 1
-                                                    ? `${theme.newcard}` // сиреневый полупрозрачный
+                                                    ? `${theme.newcard}`
                                                     : undefined;
 
                                 return (

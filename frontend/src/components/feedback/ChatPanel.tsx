@@ -135,7 +135,7 @@ const MessageBubble = styled.div<{ $sender: "user" | "admin" }>`
     align-self: ${({ $sender }) =>
     $sender === "user" ? "flex-start" : "flex-end"};
     background-color: ${({ $sender }) =>
-    $sender === "user" ? theme.panel : theme.panelAlt /* gray-200 / indigo-200 */};
+    $sender === "user" ? theme.panel : theme.panelAlt};
     text-align: ${({ $sender }) =>
     $sender === "user" ? "left" : "right"};
 `;
@@ -196,6 +196,7 @@ const BottomBannerWrapper = styled.div`
     display: flex;
     justify-content: center;
     padding-bottom: 0.5rem;
+    background-color: rgba(0, 0, 0, 0);
 `;
 
 const BottomBanner = styled.p<{ $variant: "green" | "red" }>`
@@ -224,8 +225,12 @@ const ChooseAppeal = styled.div`
     left: 50%;
     transform: translate(-50%, -50%);
     font-size: 1rem;
-    color: #dc2626; /* red-600 */
+    color: #dc2626; 
 `;
+
+
+
+
 
 export default function ChatPanel(props: PropsType) {
     const textareaRef = useRef<HTMLTextAreaElement>(null);
@@ -283,7 +288,6 @@ export default function ChatPanel(props: PropsType) {
         });
     }, [props.appealsChat]);
 
-    // авто-изменение высоты textarea
     useEffect(() => {
         const textarea = textareaRef.current;
         if (textarea) {
@@ -294,6 +298,15 @@ export default function ChatPanel(props: PropsType) {
             )}px`;
         }
     }, [value]);
+
+
+    const messagesEndRef = useRef<HTMLDivElement>(null);
+    const scrollToBottom = () => {
+        messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    };
+    useEffect(() => {
+        scrollToBottom();
+    }, [messagesByChat]);
 
     const changeAppealStatus = (newStatus: string) => {
         if (props.appealsChat === null) return;
@@ -387,15 +400,10 @@ export default function ChatPanel(props: PropsType) {
                             </EmptyText>
                         ) : (
                             messages.map((msg) => (
-                                <MessageBubble
-                                    key={msg.id}
-                                    $sender={msg.sender}
-                                >
+                                <MessageBubble key={msg.id} $sender={msg.sender}>
                                     {msg.text}
                                     <MessageTime>
-                                        {new Date(
-                                            msg.created_at
-                                        ).toLocaleTimeString([], {
+                                        {new Date(msg.created_at).toLocaleTimeString([], {
                                             hour: "2-digit",
                                             minute: "2-digit",
                                         })}
@@ -403,7 +411,11 @@ export default function ChatPanel(props: PropsType) {
                                 </MessageBubble>
                             ))
                         )}
+
+
+                        <div ref={messagesEndRef} />
                     </MessagesContainer>
+
 
                     {(props.appealsStatusCheck === "new" ||
                         props.appealsStatusCheck === "wip") && (

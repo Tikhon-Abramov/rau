@@ -13,4 +13,55 @@ html, body, #root {
     opacity: 1;
     transform: translateY(0);
   }
-}z
+}
+
+
+
+@font-face {
+  font-family: 'SF-Bold';
+  src: url('./assets/fonts/SFProText-Bold.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'SF-BoldItalic';
+  src: url('./assets/fonts/SFProText-BoldItalic.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'SF-Heavy';
+  src: url('./assets/fonts/SFProText-Heavy.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'SF-HeavyItalic';
+  src: url('./assets/fonts/SFProText-HeavyItalic.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'SF-Light';
+  src: url('./assets/fonts/SFProText-Light.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'SF-LightItalic';
+  src: url('./assets/fonts/SFProText-LightItalic.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'SF-Medium';
+  src: url('./assets/fonts/SFProText-Medium.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'SF-MediumItalic';
+  src: url('./assets/fonts/SFProText-MediumItalic.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'SF-Regular';
+  src: url('./assets/fonts/SFProText-Regular.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'SF-RegularItalic';
+  src: url('./assets/fonts/SFProText-RegularItalic.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'SF-Semibold';
+  src: url('./assets/fonts/SFProText-Semibold.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'SF-SemiboldItalic';
+  src: url('./assets/fonts/SFProText-SemiboldItalic.ttf') format('truetype');
+}

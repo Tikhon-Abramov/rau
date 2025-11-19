@@ -3,6 +3,7 @@ import {useState} from "react";
 import {theme} from "../constants/Colors.tsx";
 import {HiMiniBars3} from "react-icons/hi2";
 import { IoLogOutOutline } from "react-icons/io5";
+import {useNavigate} from "react-router-dom"; // <--- ВАЖНО: dom
 
 
 const Wrapper = styled.div`
@@ -20,6 +21,7 @@ const Title = styled.div`
     font-size: 16px;
     font-weight: 600;
     color: ${theme.text};
+    font-family: SF-Regular;
 `;
 
 const MenuButton = styled.button`
@@ -111,6 +113,7 @@ const LogOutButton = styled.p`
 
 const UserName = styled.p`
     font-size: 15px;
+    font-family: SF-LightItalic;
     color: ${theme.textDim};
 `;
 
@@ -118,6 +121,16 @@ const UserName = styled.p`
 
 export default function TopBarPanel() {
     const [menuOpen, setMenuOpen] = useState(false);
+    const navigate = useNavigate();
+
+
+    const handleNavigate = (path: string) => {
+        navigate(path);
+        setMenuOpen(false);
+    };
+    const handleLogout = () => { // тут можешь добавить очистку токена/стейта, если нужно
+        navigate("/login");
+    };
 
     return (
         <Wrapper>
@@ -130,17 +143,25 @@ export default function TopBarPanel() {
 
             {menuOpen && (
                 <Dropdown>
-                    <MenuItem>Данные для РАУ</MenuItem>
-                    <MenuItem>Верификация нарушений</MenuItem>
-                    <MenuItem>Обратная связь</MenuItem>
-                    <MenuItem>Включить сервисный режим</MenuItem>
+                    <MenuItem onClick={() => handleNavigate("/")}>
+                        Данные для РАУ
+                    </MenuItem>
+                    <MenuItem onClick={() => console.log("verify")}>
+                        Верификация нарушений
+                    </MenuItem>
+                    <MenuItem onClick={() => handleNavigate("/feedback")}>
+                        Обратная связь
+                    </MenuItem>
+                    <MenuItem onClick={() => console.log("service mode")}>
+                        Включить сервисный режим
+                    </MenuItem>
                 </Dropdown>
             )}
 
             <LogOutBlock>
                 <Circle/>
                 <UserName>Иван Иванов</UserName>
-                <LogOutButton>
+                <LogOutButton onClick={handleLogout}>
                     <IoLogOutOutline size={25}/>
                 </LogOutButton>
             </LogOutBlock>

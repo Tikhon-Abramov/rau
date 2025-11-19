@@ -7,12 +7,14 @@ import ChatPanel from "../components/feedback/ChatPanel.tsx";
 import {theme} from "../constants/Colors.tsx";
 
 const Wrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  margin: 10px; 
-  padding: 5px;
-  background-color: ${theme.bg}; 
-  border-radius: ${theme.radius};
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 82vh;
+    margin: 10px;
+    padding: 5px;
+    background-color: ${theme.bg};
+    border-radius: ${theme.radius};
 `;
 
 const ContentRow = styled.div`
