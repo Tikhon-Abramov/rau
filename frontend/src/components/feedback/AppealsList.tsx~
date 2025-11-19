@@ -80,18 +80,18 @@ const AppealDate = styled.p`
 
 const statusStyles: Record<string, ReturnType<typeof css>> = {
     new: css`
-        // background-color: ${buttons.yellow};
-        // border-color: ${buttons.yellowBorder}; 
+        background-color: ${buttons.yellow};
+        border-color: ${buttons.yellowBorder}; 
         color: ${buttons.yellowBorder};
     `,
     closed: css`
-        // background-color: ${buttons.red}; 
-        // border-color: ${buttons.redBorder};
+        background-color: ${buttons.red}; 
+        border-color: ${buttons.redBorder};
         color: ${buttons.redBorder};
     `,
     solved: css`
-        // background-color: ${buttons.green};
-        // border-color: ${buttons.greenBorder};
+        background-color: ${buttons.green};
+        border-color: ${buttons.greenBorder};
         color: ${buttons.greenBorder};
     `,
     wip: css`

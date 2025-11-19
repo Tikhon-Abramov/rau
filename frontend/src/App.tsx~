@@ -30,8 +30,8 @@ function App() {
         <Global>
             {/*<AuthorusationPage/>*/}
             <Panel>
-                {/*<TopBarPanel/>*/}
-                {/*<MainRauPage/>*/}
+                <TopBarPanel/>
+                <MainRauPage/>
                 <Feedback/>
             </Panel>
         </Global>

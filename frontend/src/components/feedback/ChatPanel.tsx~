@@ -109,7 +109,7 @@ const MessagesContainer = styled.div`
     padding: 0.5rem;
     overflow-y: auto;
     height: calc(100% - 60px);
-    max-height: 55vh;
+    max-height: 60vh;
     margin-top: 2.5rem;
     
 
