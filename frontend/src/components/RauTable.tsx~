@@ -159,7 +159,7 @@ export default function RauTable(props: PropsType) {
     const [modalMode, setModalMode] = useState<ModalMode>(null);
     const [selectedRow, setSelectedRow] = useState<RauDataType | null>(null);
     const [isModalChanging, setIsModalChanging] = useState(false);
-    const [currentRow, setCurrentRow] = useState<RauDataType | null>(null);
+    const [currentRow, setCurrentRow] = useState<RauDataType>(null);
 
     const isModalOpen = modalMode !== null;
 

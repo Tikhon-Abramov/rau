@@ -146,7 +146,7 @@ export default function TopBarPanel() {
                     <MenuItem onClick={() => handleNavigate("/")}>
                         Данные для РАУ
                     </MenuItem>
-                    <MenuItem onClick={() => handleNavigate("/verification")}>
+                    <MenuItem onClick={() => console.log("verify    ")}>
                         Верификация нарушений
                     </MenuItem>
                     <MenuItem onClick={() => handleNavigate("/feedback")}>

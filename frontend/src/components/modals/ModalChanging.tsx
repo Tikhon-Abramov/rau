@@ -1,14 +1,14 @@
 import React, {useState} from "react";
 import styled from "styled-components";
-import {theme} from "../constants/Colors.tsx";
-import type {RauDataType} from "../pages/MainRauPage.tsx";
+import {theme} from "../../constants/Colors.tsx";
+import type {RauDataType} from "../../pages/MainRauPage.tsx";
 
 
 
 type ReasonModalProps = {
     isOpen: boolean;
     onClose: () => void;
-    row: RauDataType;
+    row: RauDataType | null;
 }
 
 type FieldControl =
